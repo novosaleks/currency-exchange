@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import {Provider} from 'react-redux';
+import ErrorBoundary from './components/error-boundary';
+import Context from './containers/context-api';
+import CurrencyApi from './service';
+import store from './store';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+const currencyAPI = new CurrencyApi();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    <Provider store={store}>
+        <ErrorBoundary>
+            <Context.Provider value={currencyAPI}>
+                <App/>
+            </Context.Provider>
+        </ErrorBoundary>
+    </Provider>,
+    document.getElementById('root'));
