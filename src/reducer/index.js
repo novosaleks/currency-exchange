@@ -1,64 +1,23 @@
-import {sortByFavorite} from '../utils';
+import updateCurrencyList from './updateCurrencyList';
+import updateCurrencyForm from './updateCurrencyForm';
 
 const initialState = {
     currencyList: {
+        defaultCurrency: {text: 'Українська гривня'},
         overallList: [],
+    },
+
+    currencyForm: {
+        firstCurrencyRatio: 0,
+        secondCurrencyRatio: 0,
     }
 };
 
 const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'LOADED_CURRENCIES':
-            return {
-                currencyList: {
-                    overallList: sortByFavorite(action.payload),
-                }
-            };
-
-        case 'ADDED_TO_FAVORITE': {
-            const item = state.currencyList.overallList.find(item => item.id === action.payload),
-                idx = state.currencyList.overallList.findIndex((item) => item.id === action.payload),
-                copyItem = JSON.parse(JSON.stringify(item));
-
-            copyItem.favorite = 1;
-
-            const overallList = sortByFavorite([
-                copyItem,
-                ...state.currencyList.overallList.slice(0, idx),
-                ...state.currencyList.overallList.slice(idx + 1)
-            ]);
-
-            return {
-                currencyList: {
-                    overallList,
-                }
-            };
-        }
-
-        case 'REMOVE_FROM_FAVORITE': {
-
-            const item = state.currencyList.overallList.find(item => item.id === action.payload),
-                idx = state.currencyList.overallList.findIndex(item => item.id === action.payload),
-                copyItem = JSON.parse(JSON.stringify(item));
-
-            copyItem.favorite = 0;
-
-            const overallList = sortByFavorite([
-                ...state.currencyList.overallList.slice(0, idx),
-                ...state.currencyList.overallList.slice(idx + 1),
-                copyItem,
-            ]);
-
-            return {
-                currencyList: {
-                    overallList,
-                }
-            };
-        }
-
-        default:
-            return state;
-    }
+    return {
+        currencyList: updateCurrencyList(state.currencyList, action),
+        currencyForm: updateCurrencyForm(state.currencyForm, action)
+    };
 };
 
 export default reducer;

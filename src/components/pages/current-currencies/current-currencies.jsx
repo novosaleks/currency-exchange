@@ -2,6 +2,7 @@ import React from 'react';
 import CurrentCurrenciesItem from '../../current-currencies-item';
 
 import './current-currencies.scss';
+import DefaultCurrencyPanel from '../../default-currency-panel';
 
 
 const CurrentCurrencies = ({overallList}) => {
@@ -14,6 +15,7 @@ const CurrentCurrencies = ({overallList}) => {
         <div className='current-currencies'>
             <div className="container">
                 <h2>Currencies</h2>
+                <DefaultCurrencyPanel/>
                 <table className="table">
                     <thead>
                     <tr>

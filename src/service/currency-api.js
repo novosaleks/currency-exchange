@@ -11,15 +11,14 @@ export default class CurrencyApi {
         return await req.json();
     };
 
-    getParticularCurrency = async currency => {
+    getParticularCurrency = async currencyId => {
         const data = await this._getData();
-
         const foundCurrency = data.find(item => {
-            return item.cc === currency;
+            return item.r030 === currencyId;
         });
 
         if (!foundCurrency) {
-            throw new Error(`Invalid currency value: ${currency}`);
+            throw new Error(`Invalid currency value: ${currencyId}`);
         }
 
         return foundCurrency;
